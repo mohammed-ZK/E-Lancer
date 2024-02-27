@@ -10,11 +10,10 @@
 
 <body>
     <div class="container">
-        <h1>
-            Edit Category
-        </h1>
-        <form action="/categories/<?= $category->id ?>" method="put">
+        <h1>Edit Category</h1>
+        <form action="/categories/<?= $category->id ?>" method="post">
             <?= csrf_field() ?>
+            <input type="hidden" name="_method" value="put">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" value="<?= $category->name ?>" name="name" class="form-control">
