@@ -3,12 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Rules\FilterRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class CategoriesController extends Controller
 {
+
+    protected $roles=[
+        'name'=>'required|string|between:2,255',
+        'description'=>['nullable','string',new FilterRule],
+        'perant_id'=>['int','nullable','exists:categories,id'],
+        'art_file'=>['nullable','image'] 
+    ];
+
+    protected $messages=[
+        'required'=>"the :attribute is required",
+        'perant_id.int'=>"The fild should be integer"
+    ];
+
     public function index()
     {
         // $enitiy = DB::table('categories')->get();
@@ -39,9 +54,24 @@ class CategoriesController extends Controller
         ]);
     }
     public function create(){
-        return view('categories.create');
+        $perants=Category::all();
+        $category=new Category;
+        return view('categories.create',compact('category','perants'));
     }
     public function store(Request $request){
+
+        
+
+        $clean=$request->validate($this->roles,$this->messages);
+        // $clean=$this->validate($request,$roles);
+
+        // $validator=Validator::make($request->all(),$roles);
+        // // $clean=$validator->validate();
+
+        // if($validator->fails()){
+        //     dd($validator->errors());
+        // }
+
         // dd(
         //     $request->name,
         //     $request->input('name'),
@@ -59,9 +89,11 @@ class CategoriesController extends Controller
     }
     public function edit($id){
         $category=Category::findOrFail($id);
-        return view('categories.edit',compact('category'));
+        $perants=Category::all();
+        return view('categories.edit',compact('category','perants'));
     }
     public function update(Request $request,$id){
+        $clean=$request->validate($this->roles,$this->messages);
         $category=Category::findOrFail($id);
         $category->name=$request->input('name');
         $category->description=$request->input('description');
@@ -75,4 +107,14 @@ class CategoriesController extends Controller
         Session::flash('success','Delete Category');
         return redirect('/categories');
     }
+    protected function rules(){
+        $rules=$this->roles;
+        $rules['name'][]=new FilterRule();
+        // function($attribute,$value,$fail){
+        //     if($value=='god'){
+        //         $fail('oh no');
+        //     }
+        // };
+        return $rules;
+    } 
 }

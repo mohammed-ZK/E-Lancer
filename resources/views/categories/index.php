@@ -25,6 +25,7 @@
                     <th>Parant</th>
                     <th>Create_at</th>
                     <th></th>
+                    <th></th>
                 </thead>
                 <tbody>
                     <?php foreach ($categories as $category) : ?>
