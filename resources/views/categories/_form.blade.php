@@ -21,7 +21,7 @@
     <select id="parent_id" name="parent_id" class="form-control">
         <option value="">No parent</option>
         @foreach ($perants as $perant)
-        <option value="{{$perant->id}}" @if($perant->id == $category->perant_id) selected @endif >{{$perant->name}}</option>
+        <option value="{{$perant->id}}" @if($perant->id == $category->parent_id) selected @endif >{{$perant->name}}</option>
         @endforeach
     </select>
 </div>

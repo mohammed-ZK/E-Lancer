@@ -14,7 +14,7 @@ class CategoriesController extends Controller
 
     protected $roles=[
         'name'=>'required|string|between:2,255',
-        'description'=>['nullable','string',new FilterRule],
+        'description'=>['nullable','string'],
         'perant_id'=>['int','nullable','exists:categories,id'],
         'art_file'=>['nullable','image'] 
     ];
@@ -35,12 +35,13 @@ class CategoriesController extends Controller
         $flahMessage=Session::get('success',false);
         Session::forget('success');
 
-        return view('categories/index', [
+        return view('categories.index', [
             'categories' => $enitiy,
             'title' => 'Hello',
             // 'flahMessage' =>session('success'),
             'flahMessage' =>$flahMessage,
         ]);
+        // return view('layouts.dashboard');
     }
     public function show($id){
         // $entity=DB::table('categories')->where('id','=',$id)->first();
