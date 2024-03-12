@@ -1,11 +1,8 @@
 @extends('layouts.dashboard')
 @section('content')
 <h1 class="mb-3">{{$title}} <a href="/categories/create">Create</a></h1>
-<?php if ($flahMessage) : ?>
-    <div class="alert alert-info">
-        <?= $flahMessage ?>
-    </div>
-<?php endif ?>
+
+<x-flash-message />
 <div class="table-responsive">
     <table class="table">
         <thead>

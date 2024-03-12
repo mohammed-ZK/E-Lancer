@@ -30,16 +30,16 @@ class CategoriesController extends Controller
         // // dd($enitiy);
         $enitiy=Category::get();
 
-        $flahMessage=session('success',false);
-        $flahMessage=session()->get('success',false);
-        $flahMessage=Session::get('success',false);
-        Session::forget('success');
+        // $flahMessage=session('success',false);
+        // $flahMessage=session()->get('success',false);
+        // $flahMessage=Session::get('success',false);
+        // Session::forget('success');
 
         return view('categories.index', [
             'categories' => $enitiy,
             'title' => 'Hello',
             // 'flahMessage' =>session('success'),
-            'flahMessage' =>$flahMessage,
+            // 'flahMessage' =>$flahMessage,
         ]);
         // return view('layouts.dashboard');
     }
@@ -100,12 +100,12 @@ class CategoriesController extends Controller
         $category->description=$request->input('description');
         $category->slug=Str::slug($category->name);
         $category->save();
-        return redirect('/categories')->with('success','Update Category');
+        return redirect('/categories')->with('warning','Update Category');
     }
     public function destroy($id){
         Category::destroy($id);
         // session()->flash('success','Delete Category');
-        Session::flash('success','Delete Category');
+        Session::flash('error','Delete Category');
         return redirect('/categories');
     }
     protected function rules(){
